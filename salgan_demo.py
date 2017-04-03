@@ -1,10 +1,8 @@
 import os, sys
 
-DEVICE = 'cpu' if int(os.environ["GPU"]) < 0 else 'cuda{}'.format(os.environ["GPU"])
-os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device={},floatX=float32,lib.cnmem=1.0,optimizer_including=cudnn,exception_verbosity=high".format(DEVICE)
+device = 'cpu' if int(os.environ["GPU"]) < 0 else 'cuda{}'.format(os.environ["GPU"])
+os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device={},floatX=float32,lib.cnmem=1.0,optimizer_including=cudnn,exception_verbosity=high".format(device)
 sys.path.append(os.path.dirname(__file__) + "scripts/")
-
-
 
 import numpy as np
 from tqdm import tqdm
@@ -53,9 +51,9 @@ def predict(input_image):
 
    output_image = BytesIO()
 
-   ONLY_HEATMAP = int(os.environ["ONLY_HEATMAP"]) == 1
+   only_heatmap = int(os.environ["ONLY_HEATMAP"]) == 1
 
-   if not ONLY_HEATMAP:
+   if not only_heatmap:
       saliency_map = cv2.addWeighted(np.array(input_image), 0.3, cv2.cvtColor(cv2.applyColorMap(saliency_map, cv2.COLORMAP_JET), cv2.COLOR_BGR2RGB), 0.7, 0.0);
    
    med = Image.fromarray(saliency_map)
