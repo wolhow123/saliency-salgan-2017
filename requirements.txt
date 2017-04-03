@@ -5,7 +5,7 @@ boltons==16.5.0
 certifi==2016.2.28
 configparser==3.5.0
 cycler==0.10.0
-Cython==0.24.1
+Cython==0.25.2
 dask==0.9.0
 decorator==4.0.9
 dill==0.2.5
@@ -58,7 +58,7 @@ singledispatch==3.4.0.3
 six==1.10.0
 tabulate==0.7.5
 terminado==0.6
-Theano==0.8.2
+Theano==0.9.0
 toolz==0.7.4
 tornado==4.3
 tqdm==4.5.0
