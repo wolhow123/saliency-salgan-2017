@@ -1,0 +1,12 @@
+deploy:
+  image:
+    name: riseml/theano:latest
+  run:
+    - echo $PATH
+  input: 
+    image: image/jpeg
+  output: 
+    image: image/jpeg
+  demo:
+    title: SalGAN
+  description: SalGAN demo
