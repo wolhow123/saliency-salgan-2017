@@ -98,4 +98,4 @@ RUN wget --quiet https://imatge.upc.edu/web/sites/default/files/resources/1720/s
 	wget --quiet https://imatge.upc.edu/web/sites/default/files/resources/1720/saliency/2017-salgan/discrim_modelWeights0090.npz -P $SALGAN_PATH && \
 	wget --quiet https://s3.amazonaws.com/lasagne/recipes/pretrained/imagenet/vgg16.pkl -P $SALGAN_PATH
 
-CMD cd /app/saliency-salgan-2017/ && git python salgan_demo.py
+CMD cd /app/saliency-salgan-2017/ && python salgan_demo.py

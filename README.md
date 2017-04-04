@@ -1,3 +1,32 @@
+# SalGAN demo
+
+1. Install nvidia docker. Make sure that the host has cuda driver installed, according to the [nvidia docker repo](https://github.com/NVIDIA/nvidia-docker)
+    ```
+    # Install nvidia-docker and nvidia-docker-plugin
+    wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.1/nvidia-docker_1.0.1-1_amd64.deb
+    sudo dpkg -i /tmp/nvidia-docker*.deb && rm /tmp/nvidia-docker*.deb
+    
+    # Test nvidia-smi
+    nvidia-docker run --rm nvidia/cuda nvidia-smi
+    ```
+2. Build the image (might be done with simple docker)
+    ```
+    cd saliency-salgan-2017/
+    docker build -t "salgan_demo"
+    ```
+3. Run the app
+    ```
+    # produce image+saliency map with 1st GPU
+    nvidia-docker run -p 5000:5000 -e ONLY_HEATMAP=0 -e GPU=0 -it salgan_demo
+    
+    # produce only saliency map with CPU
+    nvidia-docker run -p 5000:5000 -e ONLY_HEATMAP=1 -e GPU=-1 -it salgan_demo
+    ```
+4. Query
+    ```
+    curl -F image=@image.jpg http://localhost:5000/predict -o output.jpg
+    ```
+
 # SalGAN: Visual Saliency Prediction with Generative Adversarial Networks
 
 | ![Junting Pan][JuntingPan-photo]  | ![Cristian Canton Ferrer][CristianCanton-photo]  |  ![Kevin McGuinness][KevinMcGuinness-photo] | ![Noel O'Connor][NoelOConnor-photo] | ![Jordi Torres][JordiTorres-photo] |![Elisa Sayrol][ElisaSayrol-photo]  | ![Xavier Giro-i-Nieto][XavierGiro-photo]  |
