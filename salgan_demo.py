@@ -1,8 +1,8 @@
 import os, sys
 
 device = 'cpu' if int(os.environ["GPU"]) < 0 else 'cuda{}'.format(os.environ["GPU"])
-os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device={},floatX=float32,lib.cnmem=1.0,optimizer_including=cudnn,exception_verbosity=high".format(device)
-sys.path.append(os.path.dirname(__file__) + "scripts/")
+os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device={},floatX=float32,lib.cnmem=1.0,optimizer_including=cudnn".format(device)
+sys.path.append(os.environ["SALGAN_PATH"] + "scripts/")
 
 import numpy as np
 from tqdm import tqdm
