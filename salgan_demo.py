@@ -1,20 +1,20 @@
-import os, sys
+import os
+import sys
+import numpy as np
+import cv2
+import riseml.server
+from PIL import Image
+from io import BytesIO
 
+#THEAN_FLAGS should be initialized before importing theano
 device = 'cpu' if int(os.environ["GPU"]) < 0 else 'cuda{}'.format(os.environ["GPU"])
-os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device={},floatX=float32,lib.cnmem=1.0,optimizer_including=cudnn,exception_verbosity=high".format(device)
+os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device={},floatX=float32,lib.cnmem=1.0,\
+                                    optimizer_including=cudnn,exception_verbosity=high".format(device)
 sys.path.append(os.environ["SALGAN_PATH"] + "scripts/")
 
-import numpy as np
-from tqdm import tqdm
-import cv2
-import glob
 from utils import *
 from constants import *
 from models.model_bce import ModelBCE
-import riseml.server
-import argparse
-from PIL import Image
-from io import BytesIO
 
 model = ModelBCE(INPUT_SIZE[0], INPUT_SIZE[1], batch_size=8)
 
@@ -38,7 +38,7 @@ def predict(input_image):
 
    result = np.squeeze(model.predictFunction(blob))
    
-   result = (result - np.min(result))/(np.max(result) -np.min(result))
+   result = (result - np.min(result)) / (np.max(result) - np.min(result))
    
    saliency_map = (result * 255).astype(np.uint8)
 
@@ -54,7 +54,9 @@ def predict(input_image):
    only_heatmap = int(os.environ["ONLY_HEATMAP"]) == 1
 
    if not only_heatmap:
-      saliency_map = cv2.addWeighted(np.array(input_image), 0.3, cv2.cvtColor(cv2.applyColorMap(saliency_map, cv2.COLORMAP_JET), cv2.COLOR_BGR2RGB), 0.7, 0.0);
+      saliency_map = cv2.applyColorMap(saliency_map, cv2.COLORMAP_JET)
+      saliency_map = cv2.addWeighted(np.array(input_image), 0.3,
+                           cv2.cvtColor(saliency_map,  cv2.COLOR_BGR2RGB), 0.7, 0.0)
    
    med = Image.fromarray(saliency_map)
    med.save(output_image, format='JPEG')
