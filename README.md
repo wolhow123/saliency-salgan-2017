@@ -12,7 +12,7 @@
 2. Build the image (might be done with simple docker)
     ```
     cd saliency-salgan-2017/
-    docker build -t "salgan_demo"
+    docker build -t "salgan_demo" .
     ```
 3. Run the app
     ```
